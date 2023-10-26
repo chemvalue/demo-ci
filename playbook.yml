@@ -1,0 +1,11 @@
+---
+- name: test
+  hosts: host
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: Test command!
+      shell: ls && touch test-ansible
+    - name: Run hello-world container!
+      shell: docker run hello-world

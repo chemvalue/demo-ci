@@ -21,13 +21,3 @@ WORKDIR /home/shinyo-denki/www
 COPY . /home/shinyo-denki/www
 
 RUN composer install
-
-#RUN mkdir -p "/etc/supervisor/logs"
-
-#RUN mkdir -p /var/run/php
-
-#RUN mkdir -p /var/log/php-fpm
-
-#COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-#CMD ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisor/supervisord.conf"]
