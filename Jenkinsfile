@@ -1,20 +1,34 @@
 pipeline {
-
-    agent {label 'agent-ci'}
-
+    agent none
     stages {
-
 	stage('Packaging/Pushing image') {
-
+	    agent {label 'agent-ci'}
             steps {
-		echo 'Start build docker image'
-		sh'id'
                 withDockerRegistry(credentialsId: 'docker-registry', url: 'https://docker-test.nguyenlinh2.site') {
-		    echo 'Login success'
                     sh 'docker build -t docker-test.nguyenlinh2.site/demo-laravel .'
                     sh 'docker push docker-test.nguyenlinh2.site/demo-laravel'
-		    echo 'After push'
                 }
+            }
+        }
+	stage('Deploy container with ansible') {
+            agent{
+        	docker {
+            	    image 'khaliddinh/ansible'
+        	}
+    	    }
+	    environment {
+        	ANSIBLE_HOST_KEY_CHECKING = 'False'
+    	    }
+	    steps {
+                withCredentials([file(credentialsId: 'ansible_key', variable: 'ansible_key')]) {
+                    sh 'ls -la'
+                    sh "cp /$ansible_key ansible_key"
+                    sh 'cat ansible_key'
+                    sh 'ansible --version'
+                    sh 'ls -la'
+                    sh 'chmod 400 ansible_key '
+                    sh 'ansible-playbook -i hosts --private-key ansible_key playbook.yml'
+            	}
             }
         }
 

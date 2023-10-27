@@ -7,5 +7,15 @@
   tasks:
     - name: Test command!
       shell: ls && touch test-ansible
-    - name: Run hello-world container!
-      shell: docker run hello-world
+    - name: Create demo laravel container
+      docker_container:
+        name: demo-laravel-container
+        image: docker-test.nguyenlinh2.site/demo-laravel
+        state: started
+        exposed_ports:
+          - 9000
+        detach: true
+        recreate: yes
+        pull: true
+        comparisons:
+          image: strict

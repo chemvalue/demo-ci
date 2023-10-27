@@ -1,0 +1,2 @@
+[host]
+150.95.110.71   ansible_user=root
