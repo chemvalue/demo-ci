@@ -8,6 +8,7 @@ pipeline {
 
             steps {
 		echo 'Start build docker image'
+		sh'id'
                 withDockerRegistry(credentialsId: 'docker-registry', url: 'https://docker-test.nguyenlinh2.site') {
 		    echo 'Login success'
                     sh 'docker build -t docker-test.nguyenlinh2.site/demo-laravel .'
