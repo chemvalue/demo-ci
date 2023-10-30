@@ -11,11 +11,7 @@ pipeline {
             }
         }
 	stage('Deploy container with ansible') {
-            agent{
-        	docker {
-            	    image 'khaliddinh/ansible'
-        	}
-    	    }
+            agent{label 'ansible-agent'}
 	    environment {
         	ANSIBLE_HOST_KEY_CHECKING = 'False'
     	    }
